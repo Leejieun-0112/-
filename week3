@@ -1,0 +1,51 @@
+#pragma warning(disable:4996)
+#include<stdio.h>
+#include<stdlib.h>
+
+//선택정렬
+void inPlaceSelectionSort(int A[],int n) {
+	int max, tmp;
+
+	for (int i = n - 1;i > 0;i--) {
+		max = i;
+		for (int j = 0;j <= i - 1;j++) {
+			if (A[j] > A[max]) {
+				max = j;
+			}
+		}
+		tmp = A[i];
+		A[i] = A[max];
+		A[max] = tmp;
+	}
+}
+//삽입정렬
+void inPlaceInsertionSort(int A[],int n) {
+	
+	for (int i = 1;i < n;i++) {
+		int save = A[i];
+		int j = i - 1;
+		while ((j >= 0) && (A[j] > save)) {
+			A[j + 1] = A[j];
+			j--;
+		}//save보다 작은 값이 나올때까지 이동
+		A[j + 1] = save;
+	}
+}
+void main() {
+	int num;
+	scanf("%d", &num);
+
+	int* A = (int*)malloc(sizeof(int) * num);
+	for (int i = 0;i < num;i++) {
+		scanf("%d", &A[i]);
+	}
+
+	//inPlaceSelectionSort(A, num);
+	inPlaceInsertionSort(A,num);
+
+	for (int i = 0;i < num;i++) {
+		printf(" %d", *(A + i));
+	}
+	printf("\n");
+
+}
