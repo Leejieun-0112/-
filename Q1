@@ -1,0 +1,86 @@
+#pragma warning(disable:4996)
+#include<stdio.h>
+
+/*최대힙*//*배열로 구현*/
+
+int H[101], n=0; //전역변수: 힙 배열 H,힙의 크기 n
+
+void upHeap(int i) {
+	if (i == 1) {
+		return;
+	}
+	if (H[i] <= H[i / 2]) {
+		return;
+	}
+	int tmp;
+	tmp= H[i];
+	H[i] = H[i / 2];
+	H[i / 2] = tmp; //swap
+
+	upHeap(i / 2);
+}
+void downHeap(int i) {
+	int tmp, j = i * 2; //j는 루트노드의 왼쪽자식
+
+	while (j <= n) {
+		if ((j < n) && (H[j + 1] > H[j])) {
+			j++;   //더 큰 key를 가진 자식을 선택
+		}
+		if (H[i] < H[j]) {
+			tmp = H[i];
+			H[i] = H[j];
+			H[j] = tmp; //swap
+			i = j; //서브트리 비교시작
+			j = 2 * j; //마지막 노드에 도달할 때까지 반복
+		}
+		else {
+			break;
+		}
+	}
+}
+void insertItem(int key) { //삽입
+	n++;
+	H[n] = key;
+	upHeap(n);
+}
+int removeMax() { //삭제
+	int x = H[1];
+	H[1] = H[n];
+	n--;
+	downHeap(1);
+	return x;
+}
+void printHeap() {
+	for (int i = 1; i <= n; i++)
+		printf(" %d", H[i]);
+	printf("\n");
+}
+
+void main(){
+
+	char c;
+
+	while (1) {
+		scanf(" %c", &c);
+		getchar();
+
+		if (c == 'i'){
+			int key;
+			scanf("%d", &key);
+			getchar();
+			insertItem(key);
+			printf("0\n");
+
+		}
+		if (c == 'd'){
+			printf("%d\n",removeMax());
+		}
+		if (c == 'p') {
+			printHeap();
+		}
+		if (c == 'q') {
+			break;
+		}
+	}
+
+}
